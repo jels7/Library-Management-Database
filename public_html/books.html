@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books - Community Library Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Community Library Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="patrons.html">Patrons</a></li>
+                <li><a href="donations.html">Donations</a></li>
+                <li><a href="genres.html">Genres</a></li>
+                <li><a href="borrowed_books.html">Borrowed Books</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>Books</h2>
+        <table id="booksTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Book entries will be displayed here -->
+            </tbody>
+        </table>
+
+        <h3>Add/Edit Book</h3>
+        <form id="bookForm">
+            <label for="bookTitle">Title:</label>
+            <input type="text" id="bookTitle" name="bookTitle" required>
+            
+            <label for="bookAuthor">Author:</label>
+            <input type="text" id="bookAuthor" name="bookAuthor" required>
+            
+            <label for="bookGenre">Genre:</label>
+            <input type="text" id="bookGenre" name="bookGenre" required>
+            
+            <input type="hidden" id="bookId" name="bookId">
+            <button type="submit">Save Book</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Community Library Management System</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>

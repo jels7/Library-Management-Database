@@ -1,61 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Donations - Community Library Management System</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
     <header>
-        <h1>Donations</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="books.html">Books</a></li>
-                <li><a href="patrons.html">Patrons</a></li>
-                <li><a href="donations.html">Donations</a></li>
-                <li><a href="genres.html">Genres</a></li>
-                <li><a href="borrowed_books.html">Borrowed Books</a></li>
-            </ul>
-        </nav>
+      <h1>Donations</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="books.html">Books</a></li>
+          <li><a href="patrons.html">Patrons</a></li>
+          <li><a href="donations.html">Donations</a></li>
+          <li><a href="genres.html">Genres</a></li>
+          <li><a href="borrowed_books.html">Borrowed Books</a></li>
+        </ul>
+      </nav>
     </header>
     <main>
-        <section>
-            <h2>List of Donations</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Donor Name</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Donation records will be displayed here -->
-                </tbody>
-            </table>
-        </section>
-        <section>
-            <h2>Add/Edit Donation</h2>
-            <form id="donationForm">
-                <label for="donorName">Donor Name:</label>
-                <input type="text" id="donorName" name="donorName" required>
-                
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" name="amount" required>
-                
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
-                
-                <button type="submit">Submit</button>
-            </form>
-        </section>
+      <section>
+        <h2>List of Donations</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Donor Name</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Donation records will be displayed here -->
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h2>Add/Edit Donation</h2>
+        <form id="donationForm">
+          <label for="donorName">Donor Name:</label>
+          <input type="text" id="donorName" name="donorName" required />
+
+          <label for="amount">Amount:</label>
+          <input type="number" id="amount" name="amount" required />
+
+          <label for="date">Date:</label>
+          <input type="date" id="date" name="date" required />
+
+          <button type="submit">Submit</button>
+        </form>
+      </section>
     </main>
-    <footer>
-        <p>&copy; 2023 Community Library Management System</p>
-    </footer>
+
     <script src="js/scripts.js"></script>
-</body>
+  </body>
 </html>

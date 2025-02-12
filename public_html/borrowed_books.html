@@ -1,67 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Borrowed Books</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
     <header>
-        <h1>Borrowed Books</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="books.html">Books</a></li>
-                <li><a href="patrons.html">Patrons</a></li>
-                <li><a href="donations.html">Donations</a></li>
-                <li><a href="genres.html">Genres</a></li>
-            </ul>
-        </nav>
+      <h1>Borrowed Books</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="books.html">Books</a></li>
+          <li><a href="patrons.html">Patrons</a></li>
+          <li><a href="donations.html">Donations</a></li>
+          <li><a href="genres.html">Genres</a></li>
+        </ul>
+      </nav>
     </header>
-    
+
     <main>
-        <section>
-            <h2>List of Borrowed Books</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Book Title</th>
-                        <th>Patron Name</th>
-                        <th>Borrow Date</th>
-                        <th>Return Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Borrowed books will be listed here -->
-                </tbody>
-            </table>
-        </section>
+      <section>
+        <h2>List of Borrowed Books</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Book Title</th>
+              <th>Patron Name</th>
+              <th>Borrow Date</th>
+              <th>Return Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Borrowed books will be listed here -->
+          </tbody>
+        </table>
+      </section>
 
-        <section>
-            <h2>Checkout/Return Book</h2>
-            <form id="borrowedBookForm">
-                <label for="bookTitle">Book Title:</label>
-                <input type="text" id="bookTitle" name="bookTitle" required>
+      <section>
+        <h2>Checkout/Return Book</h2>
+        <form id="borrowedBookForm">
+          <label for="bookTitle">Book Title:</label>
+          <input type="text" id="bookTitle" name="bookTitle" required />
 
-                <label for="patronName">Patron Name:</label>
-                <input type="text" id="patronName" name="patronName" required>
+          <label for="patronName">Patron Name:</label>
+          <input type="text" id="patronName" name="patronName" required />
 
-                <label for="borrowDate">Borrow Date:</label>
-                <input type="date" id="borrowDate" name="borrowDate" required>
+          <label for="borrowDate">Borrow Date:</label>
+          <input type="date" id="borrowDate" name="borrowDate" required />
 
-                <label for="returnDate">Return Date:</label>
-                <input type="date" id="returnDate" name="returnDate">
+          <label for="returnDate">Return Date:</label>
+          <input type="date" id="returnDate" name="returnDate" />
 
-                <button type="submit">Submit</button>
-            </form>
-        </section>
+          <button type="submit">Submit</button>
+        </form>
+      </section>
     </main>
 
-    <footer>
-        <p>&copy; 2023 Community Library Management System</p>
-    </footer>
-
     <script src="js/scripts.js"></script>
-</body>
+  </body>
 </html>

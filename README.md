@@ -1,7 +1,7 @@
 # Community Library Management System
 
 ## Overview
-The Community Library Management System is a static front-end application designed to manage library resources, including books, patrons, donations, and genres. This project allows users to perform CRUD (Create, Read, Update, Delete) operations through a user-friendly interface built with HTML, CSS, and JavaScript.
+The Community Library Management System is a static front-end application designed to manage library resources, including books, patrons, donations, and genres. This project allows users to perform CRUD (Create, Read, Update, Delete) operations through a user-friendly interface built with HTML, CSS, and JavaScript. The backend database is built with SQL.
 
 ## Project Structure
 ```

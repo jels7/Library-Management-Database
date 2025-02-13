@@ -13,16 +13,35 @@ header {
 }
 
 nav {
-    margin: 20px 0;
+    background: #35424a;
+    /* Optional background color */
+    padding: 10px 0;
 }
 
-nav a {
-    color: #ffffff;
-    text-decoration: none;
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    /* Center navigation items */
+}
+
+nav ul li {
     margin: 0 15px;
+    /* Space between links */
 }
 
-nav a:hover {
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px 15px;
+    display: inline-block;
+    /* Ensures proper spacing */
+}
+
+nav ul li a:hover {
     text-decoration: underline;
 }
 
@@ -32,7 +51,8 @@ nav a:hover {
     overflow: hidden;
 }
 
-h1, h2 {
+h1,
+h2 {
     color: #35424a;
 }
 
@@ -71,7 +91,8 @@ form input[type="submit"]:hover {
     margin: 20px 0;
 }
 
-.table th, .table td {
+.table th,
+.table td {
     border: 1px solid #ddd;
     padding: 8px;
 }

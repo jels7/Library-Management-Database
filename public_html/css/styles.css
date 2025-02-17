@@ -12,33 +12,38 @@ header {
     text-align: center;
 }
 
+header h1 {
+    color: #ffffff;
+    /* Change the font color of the title */
+}
+
 nav {
-    background: #35424a;
-    /* Optional background color */
-    padding: 10px 0;
+    margin: 20px 0;
 }
 
 nav ul {
     list-style-type: none;
+    /* Remove bullet points */
     padding: 0;
+    /* Remove default padding */
     margin: 0;
+    /* Remove default margin */
     display: flex;
+    /* Display list items in a row */
     justify-content: center;
-    /* Center navigation items */
+    /* Center the navigation items */
 }
 
 nav ul li {
-    margin: 0 15px;
-    /* Space between links */
+    margin-right: 15px;
+    /* Add some space between the links */
 }
 
 nav ul li a {
     text-decoration: none;
-    color: white;
-    font-size: 18px;
-    padding: 10px 15px;
-    display: inline-block;
-    /* Ensures proper spacing */
+    /* Remove underline from links */
+    color: #000;
+    /* Set link color */
 }
 
 nav ul li a:hover {
@@ -89,11 +94,14 @@ form input[type="submit"]:hover {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+    border: 1px solid #ddd;
+    /* Add border to the table */
 }
 
 .table th,
 .table td {
     border: 1px solid #ddd;
+    /* Add border to table cells */
     padding: 8px;
 }
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patrons - Community Library Management System</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
       body {
         background: #b9b9b7;
@@ -29,7 +29,7 @@
     <main>
       <section>
         <h2>List of Patrons</h2>
-        <table>
+        <table class="table">
           <thead>
             <tr>
               <th>ID</th>
@@ -40,7 +40,27 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Patron entries will be dynamically generated here -->
+            <!-- Sample Data -->
+            <tr>
+              <td>1</td>
+              <td>John Doe</td>
+              <td>john.doe@example.com</td>
+              <td>123-456-7890</td>
+              <td>
+                <button onclick="editPatron(1)">Edit</button>
+                <button onclick="deletePatron(1)">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Jane Smith</td>
+              <td>jane.smith@example.com</td>
+              <td>098-765-4321</td>
+              <td>
+                <button onclick="editPatron(2)">Edit</button>
+                <button onclick="deletePatron(2)">Delete</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -60,6 +80,7 @@
           <label for="patronPhone">Phone:</label>
           <input type="tel" id="patronPhone" name="patronPhone" required />
 
+          <input type="hidden" id="patronIdHidden" name="patronIdHidden" />
           <button type="submit">Submit</button>
         </form>
       </section>

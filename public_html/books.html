@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Books - Community Library Management System</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
       body {
         background: #b9b9b7;
@@ -13,7 +13,7 @@
   </head>
   <body>
     <header>
-      <h1>Community Library Management System</h1>
+      <h1>Books</h1>
       <nav>
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -25,39 +25,65 @@
         </ul>
       </nav>
     </header>
-
     <main>
-      <h2>Books</h2>
-      <table id="booksTable">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Genre</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Book entries will be displayed here -->
-        </tbody>
-      </table>
+      <section>
+        <h2>Books List</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+              <th>Year</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample Data -->
+            <tr>
+              <td>The Great Adventure</td>
+              <td>John Williams</td>
+              <td>Adventure</td>
+              <td>2021</td>
+              <td>
+                <button onclick="editBook(1)">Edit</button>
+                <button onclick="deleteBook(1)">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Cooking for Beginners</td>
+              <td>Jane Doe</td>
+              <td>Cooking</td>
+              <td>2022</td>
+              <td>
+                <button onclick="editBook(2)">Edit</button>
+                <button onclick="deleteBook(2)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-      <h3>Add/Edit Book</h3>
-      <form id="bookForm">
-        <label for="bookTitle">Title:</label>
-        <input type="text" id="bookTitle" name="bookTitle" required />
+      <section>
+        <h2>Add/Edit Book</h2>
+        <form id="bookForm">
+          <label for="bookTitle">Title:</label>
+          <input type="text" id="bookTitle" name="bookTitle" required />
 
-        <label for="bookAuthor">Author:</label>
-        <input type="text" id="bookAuthor" name="bookAuthor" required />
+          <label for="bookAuthor">Author:</label>
+          <input type="text" id="bookAuthor" name="bookAuthor" required />
 
-        <label for="bookGenre">Genre:</label>
-        <input type="text" id="bookGenre" name="bookGenre" required />
+          <label for="bookGenre">Genre:</label>
+          <input type="text" id="bookGenre" name="bookGenre" required />
 
-        <input type="hidden" id="bookId" name="bookId" />
-        <button type="submit">Save Book</button>
-      </form>
+          <label for="bookYear">Year:</label>
+          <input type="number" id="bookYear" name="bookYear" required />
+
+          <input type="hidden" id="bookId" name="bookId" />
+          <button type="submit">Save Book</button>
+        </form>
+      </section>
     </main>
-
     <script src="js/scripts.js"></script>
   </body>
 </html>

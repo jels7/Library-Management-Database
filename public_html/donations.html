@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Donations - Community Library Management System</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
       body {
         background: #b9b9b7;
@@ -28,17 +28,35 @@
     <main>
       <section>
         <h2>List of Donations</h2>
-        <table>
+        <table class="table">
           <thead>
             <tr>
               <th>Donor Name</th>
-              <th>Amount</th>
+              <th>Book Title</th>
               <th>Date</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Donation records will be displayed here -->
+            <!-- Sample Data -->
+            <tr>
+              <td>John Doe</td>
+              <td>The Great Adventure</td>
+              <td>2023-01-01</td>
+              <td>
+                <button onclick="editDonation(1)">Edit</button>
+                <button onclick="deleteDonation(1)">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>Cooking for Beginners</td>
+              <td>2023-02-01</td>
+              <td>
+                <button onclick="editDonation(2)">Edit</button>
+                <button onclick="deleteDonation(2)">Delete</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -48,12 +66,13 @@
           <label for="donorName">Donor Name:</label>
           <input type="text" id="donorName" name="donorName" required />
 
-          <label for="amount">Amount:</label>
-          <input type="number" id="amount" name="amount" required />
+          <label for="bookTitle">Book Title:</label>
+          <input type="text" id="bookTitle" name="bookTitle" required />
 
           <label for="date">Date:</label>
           <input type="date" id="date" name="date" required />
 
+          <input type="hidden" id="donationId" name="donationId" />
           <button type="submit">Submit</button>
         </form>
       </section>

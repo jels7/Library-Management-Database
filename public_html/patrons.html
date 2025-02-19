@@ -32,10 +32,10 @@
         <table class="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>patronID</th>
               <th>Name</th>
-              <th>Email</th>
               <th>Phone</th>
+              <th>Membership Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -44,8 +44,8 @@
             <tr>
               <td>1</td>
               <td>John Doe</td>
-              <td>john.doe@example.com</td>
               <td>123-456-7890</td>
+              <td>2023-01-01</td>
               <td>
                 <button onclick="editPatron(1)">Edit</button>
                 <button onclick="deletePatron(1)">Delete</button>
@@ -54,8 +54,8 @@
             <tr>
               <td>2</td>
               <td>Jane Smith</td>
-              <td>jane.smith@example.com</td>
               <td>098-765-4321</td>
+              <td>2023-02-01</td>
               <td>
                 <button onclick="editPatron(2)">Edit</button>
                 <button onclick="deletePatron(2)">Delete</button>
@@ -68,17 +68,22 @@
       <section>
         <h2>Add/Edit Patron</h2>
         <form id="patronForm">
-          <label for="patronId">ID:</label>
+          <label for="patronId">patronID:</label>
           <input type="text" id="patronId" name="patronId" required />
 
           <label for="patronName">Name:</label>
           <input type="text" id="patronName" name="patronName" required />
 
-          <label for="patronEmail">Email:</label>
-          <input type="email" id="patronEmail" name="patronEmail" required />
-
           <label for="patronPhone">Phone:</label>
           <input type="tel" id="patronPhone" name="patronPhone" required />
+
+          <label for="membershipDate">Membership Date:</label>
+          <input
+            type="date"
+            id="membershipDate"
+            name="membershipDate"
+            required
+          />
 
           <input type="hidden" id="patronIdHidden" name="patronIdHidden" />
           <button type="submit">Submit</button>

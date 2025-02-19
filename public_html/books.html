@@ -31,30 +31,30 @@
         <table class="table">
           <thead>
             <tr>
+              <th>Book ID</th>
               <th>Title</th>
-              <th>Author</th>
-              <th>Genre</th>
-              <th>Year</th>
+              <th>Genre ID</th>
+              <th>Copies Available</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <!-- Sample Data -->
             <tr>
+              <td>1</td>
               <td>The Great Adventure</td>
-              <td>John Williams</td>
-              <td>Adventure</td>
-              <td>2021</td>
+              <td>1</td>
+              <td>5</td>
               <td>
                 <button onclick="editBook(1)">Edit</button>
                 <button onclick="deleteBook(1)">Delete</button>
               </td>
             </tr>
             <tr>
+              <td>2</td>
               <td>Cooking for Beginners</td>
-              <td>Jane Doe</td>
-              <td>Cooking</td>
-              <td>2022</td>
+              <td>2</td>
+              <td>3</td>
               <td>
                 <button onclick="editBook(2)">Edit</button>
                 <button onclick="deleteBook(2)">Delete</button>
@@ -67,19 +67,23 @@
       <section>
         <h2>Add/Edit Book</h2>
         <form id="bookForm">
+          <label for="bookId">Book ID:</label>
+          <input type="number" id="bookId" name="bookId" required />
+
           <label for="bookTitle">Title:</label>
           <input type="text" id="bookTitle" name="bookTitle" required />
 
-          <label for="bookAuthor">Author:</label>
-          <input type="text" id="bookAuthor" name="bookAuthor" required />
+          <label for="genreID">Genre ID:</label>
+          <input type="number" id="genreID" name="genreID" required />
 
-          <label for="bookGenre">Genre:</label>
-          <input type="text" id="bookGenre" name="bookGenre" required />
+          <label for="copiesAvailable">Copies Available:</label>
+          <input
+            type="number"
+            id="copiesAvailable"
+            name="copiesAvailable"
+            required
+          />
 
-          <label for="bookYear">Year:</label>
-          <input type="number" id="bookYear" name="bookYear" required />
-
-          <input type="hidden" id="bookId" name="bookId" />
           <button type="submit">Save Book</button>
         </form>
       </section>

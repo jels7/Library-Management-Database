@@ -31,17 +31,19 @@
         <table class="table">
           <thead>
             <tr>
+              <th>Donation ID</th>
               <th>Donor Name</th>
-              <th>Book Title</th>
-              <th>Date</th>
+              <th>Book ID</th>
+              <th>Donation Date</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <!-- Sample Data -->
             <tr>
+              <td>1</td>
               <td>John Doe</td>
-              <td>The Great Adventure</td>
+              <td>1</td>
               <td>2023-01-01</td>
               <td>
                 <button onclick="editDonation(1)">Edit</button>
@@ -49,8 +51,9 @@
               </td>
             </tr>
             <tr>
+              <td>2</td>
               <td>Jane Smith</td>
-              <td>Cooking for Beginners</td>
+              <td>2</td>
               <td>2023-02-01</td>
               <td>
                 <button onclick="editDonation(2)">Edit</button>
@@ -63,16 +66,19 @@
       <section>
         <h2>Add/Edit Donation</h2>
         <form id="donationForm">
+          <label for="donationId">Donation ID:</label>
+          <input type="number" id="donationId" name="donationId" required />
+
           <label for="donorName">Donor Name:</label>
           <input type="text" id="donorName" name="donorName" required />
 
-          <label for="bookTitle">Book Title:</label>
-          <input type="text" id="bookTitle" name="bookTitle" required />
+          <label for="bookId">Book ID:</label>
+          <input type="number" id="bookId" name="bookId" required />
 
-          <label for="date">Date:</label>
-          <input type="date" id="date" name="date" required />
+          <label for="donationDate">Donation Date:</label>
+          <input type="date" id="donationDate" name="donationDate" required />
 
-          <input type="hidden" id="donationId" name="donationId" />
+          <input type="hidden" id="donationIdHidden" name="donationIdHidden" />
           <button type="submit">Submit</button>
         </form>
       </section>

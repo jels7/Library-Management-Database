@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patrons - Community Library Management System</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body {
+            background: #b9b9b7;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Patrons</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/books">Books</a></li>
+                <li><a href="/patrons">Patrons</a></li>
+                <li><a href="/donations">Donations</a></li>
+                <li><a href="/genres">Genres</a></li>
+                <li><a href="/borrowed_books">Borrowed Books</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Patrons List</h2>
+            <table class="table" id="patrons-table">
+                <thead>
+                    <tr>
+                        {{#each data.[0]}}
+                        <th>
+                            {{@key}}
+                        </th>
+                        {{/each}}
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data}}
+                    <tr data-value="{{this.patronID}}">
+                        <td>{{this.patronID}}</td>
+                        <td>{{this.patronName}}</td>
+                        <td>{{this.phoneNum}}</td>
+                        <td>{{this.membershipDate}}</td>
+                        <td>
+                            <button onclick="editPatron({{this.patronID}})">Edit</button>
+                            <button onclick="deletePatron({{this.patronID}})">Delete</button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Add Patron</h2>
+            <form id="add-patron-form-ajax">
+                <label for="input-patronName">Name:</label>
+                <input type="text" id="input-patronName" name="patronName" required>
+
+                <label for="input-phoneNum">Phone Number:</label>
+                <input type="text" id="input-phoneNum" name="phoneNum" required>
+
+                <label for="input-membershipDate">Membership Date:</label>
+                <input type="date" id="input-membershipDate" name="membershipDate" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+        <section>
+            <h2>Update Patron</h2>
+            <form id="update-patron-form-ajax">
+                <label for="select-patron">Select Patron:</label>
+                <select name="select-patron" id="select-patron">
+                    <option value="">Select a Patron</option>
+                    {{#each data}}
+                    <option value="{{this.patronID}}">{{this.patronName}}</option>
+                    {{/each}}
+                </select>
+
+                <label for="update-phoneNum">New Phone Number:</label>
+                <input type="text" id="update-phoneNum" name="phoneNum">
+
+                <label for="update-membershipDate">New Membership Date:</label>
+                <input type="date" id="update-membershipDate" name="membershipDate">
+
+                <button type="submit">Update</button>
+            </form>
+        </section>
+    </main>
+    <script src="./js/patrons.js"></script>
+    <script src="./js/delete_patron.js"></script>
+    <script src="./js/update_patron.js"></script>
+</body>
+
+</html>

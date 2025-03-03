@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genres - Community Library Management System</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            background: #b9b9b7;
+        }
+
+        .genre-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .genre-list li {
+            list-style: none;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Genres</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/books">Books</a></li>
+                <li><a href="/patrons">Patrons</a></li>
+                <li><a href="/donations">Donations</a></li>
+                <li><a href="/genres">Genres</a></li>
+                <li><a href="/borrowed_books">Borrowed Books</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Genres List</h2>
+            <table class="table" id="genres-table">
+                <thead>
+                    <tr>
+                        <th>Genre ID</th>
+                        <th>Genre Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data}}
+                    <tr data-value="{{this.genreID}}">
+                        <td>{{this.genreID}}</td>
+                        <td>{{this.genreName}}</td>
+                        <td>
+                            <button onclick="editGenre({{this.genreID}})">Edit</button>
+                            <button onclick="deleteGenre({{this.genreID}})">Delete</button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Add Genre</h2>
+            <form id="add-genre-form-ajax">
+                <label for="input-genreName">Genre Name:</label>
+                <input type="text" id="input-genreName" name="genreName" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+        <section>
+            <h2>Update Genre</h2>
+            <form id="update-genre-form-ajax">
+                <label for="select-genre">Select Genre:</label>
+                <select name="select-genre" id="select-genre">
+                    <option value="">Select a Genre</option>
+                    {{#each data}}
+                    <option value="{{this.genreID}}">{{this.genreName}}</option>
+                    {{/each}}
+                </select>
+
+                <label for="update-genreName">New Genre Name:</label>
+                <input type="text" id="update-genreName" name="genreName">
+
+                <button type="submit">Update</button>
+            </form>
+        </section>
+    </main>
+    <script src="./js/genres.js"></script>
+    <script src="./js/delete_genre.js"></script>
+    <script src="./js/update_genre.js"></script>
+</body>
+
+</html>

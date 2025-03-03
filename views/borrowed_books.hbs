@@ -1,0 +1,131 @@
+!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrowed Books - Community Library Management System</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body {
+            background: #b9b9b7;
+        }
+
+        .genre-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .genre-list li {
+            list-style: none;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Borrowed Books</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/books">Books</a></li>
+                <li><a href="/patrons">Patrons</a></li>
+                <li><a href="/donations">Donations</a></li>
+                <li><a href="/genres">Genres</a></li>
+                <li><a href="/borrowed_books">Borrowed Books</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Borrowed Books List</h2>
+            <table class="table" id="borrowed-books-table">
+                <thead>
+                    <tr>
+                        <th>Borrowed Book ID</th>
+                        <th>Patron ID</th>
+                        <th>Book ID</th>
+                        <th>Borrow Date</th>
+                        <th>Return Date</th>
+                        <th>Due Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data}}
+                    <tr data-value="{{this.borrowedBookID}}">
+                        <td>{{this.borrowedBookID}}</td>
+                        <td>{{this.patronID}}</td>
+                        <td>{{this.bookID}}</td>
+                        <td>{{this.borrowDate}}</td>
+                        <td>{{this.returnDate}}</td>
+                        <td>{{this.dueDate}}</td>
+                        <td>
+                            <button onclick="editBorrowedBook({{this.borrowedBookID}})">Edit</button>
+                            <button onclick="deleteBorrowedBook({{this.borrowedBookID}})">Delete</button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Add Borrowed Book</h2>
+            <form id="add-borrowed-book-form-ajax">
+                <label for="input-patronId">Patron ID:</label>
+                <input type="number" id="input-patronId" name="patronId" required>
+
+                <label for="input-bookId">Book ID:</label>
+                <input type="number" id="input-bookId" name="bookId" required>
+
+                <label for="input-borrowDate">Borrow Date:</label>
+                <input type="date" id="input-borrowDate" name="borrowDate" required>
+
+                <label for="input-returnDate">Return Date:</label>
+                <input type="date" id="input-returnDate" name="returnDate" required>
+
+                <label for="input-dueDate">Due Date:</label>
+                <input type="date" id="input-dueDate" name="dueDate" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+        <section>
+            <h2>Update Borrowed Book</h2>
+            <form id="update-borrowed-book-form-ajax">
+                <label for="select-borrowed-book">Select Borrowed Book:</label>
+                <select name="select-borrowed-book" id="select-borrowed-book">
+                    <option value="">Select a Borrowed Book</option>
+                    {{#each data}}
+                    <option value="{{this.borrowedBookID}}">{{this.borrowedBookID}}</option>
+                    {{/each}}
+                </select>
+
+                <label for="update-patronId">New Patron ID:</label>
+                <input type="number" id="update-patronId" name="patronId">
+
+                <label for="update-bookId">New Book ID:</label>
+                <input type="number" id="update-bookId" name="bookId">
+
+                <label for="update-borrowDate">New Borrow Date:</label>
+                <input type="date" id="update-borrowDate" name="borrowDate">
+
+                <label for="update-returnDate">New Return Date:</label>
+                <input type="date" id="update-returnDate" name="returnDate">
+
+                <label for="update-dueDate">New Due Date:</label>
+                <input type="date" id="update-dueDate" name="dueDate">
+
+                <button type="submit">Update</button>
+            </form>
+        </section>
+
+    </main>
+    <script src="./js/borrowed_books.js"></script>
+    <script src="./js/delete_borrowed_books.js"></script>
+    <script src="./js/update_borrowed_book.js"></script>
+</body>
+
+</html>

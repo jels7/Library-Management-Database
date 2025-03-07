@@ -44,6 +44,15 @@ app.get('/books', function (req, res) {
     });
 });
 
+// Render the genres page
+app.get('/genres', function (req, res) {
+    let query1 = "SELECT * FROM Genres;";
+    db.pool.query(query1, function (error, rows, fields) {
+        res.render('genres', { data: rows});
+    });
+});
+
+
 // POST ROUTES
 
 // Add a patron via AJAX
@@ -148,6 +157,57 @@ app.post('/add-book-form', function (req, res) {
     });
 });
 
+// Add a genre via AJAX
+app.post('/add-genre-ajax', function (req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Genres (genreName) VALUES ('${data.genreName}')`;
+    db.pool.query(query1, function (error, rows, fields) {
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If there was no error, perform a SELECT * on Patrons
+            let query2 = `SELECT * FROM Genres`;
+            db.pool.query(query2, function (error, rows, fields) {
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    // If all went well, send the results of the query back.
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+// Add a genre via form submission
+app.post('/add-genre-form', function (req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Genres (genreName) VALUES ('${data['input-genreName']}')`;
+    db.pool.query(query1, function (error, rows, fields) {
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If there was no error, redirect back to the patrons page
+            res.redirect('/genres');
+        }
+    });
+});
+
 // DELETE ROUTE
 
 // Delete a patron via AJAX
@@ -175,6 +235,24 @@ app.delete('/delete-book-ajax', function (req, res) {
 
     // Run the delete query
     db.pool.query(deleteBookQuery, [bookID], function (error, rows, fields) {
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
+// Delete a genre via AJAX
+app.delete('/delete-genre-ajax', function (req, res) {
+    let data = req.body;
+    let genreID = parseInt(data.id);
+    let deleteGenreQuery = `DELETE FROM Genres WHERE genreID = ?`;
+
+    // Run the delete query
+    db.pool.query(deleteGenreQuery, [genreID], function (error, rows, fields) {
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
@@ -239,6 +317,36 @@ app.put('/update-book-ajax', function (req, res) {
         } else {
             // Run the select query to get the updated data
             db.pool.query(selectUpdatedBook, [bookID], function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+// Update a genre via AJAX
+app.put('/update-genre-ajax', function (req, res) {
+    let data = req.body;
+
+    let genreID = parseInt(data.genreID);
+    let genreName = data.genreName;
+
+    let queryUpdateGenre = `UPDATE Genres SET genreName = ? WHERE genreID = ?`;
+    let selectUpdatedGenre = `SELECT * FROM Genres WHERE genreID = ?`;
+
+    // Run the update query
+    db.pool.query(queryUpdateGenre, [genreName, genreID], function (error, rows, fields) {
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // Run the select query to get the updated data
+            db.pool.query(selectUpdatedGenre, [genreID], function (error, rows, fields) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(400);

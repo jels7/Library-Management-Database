@@ -162,7 +162,7 @@ function editGenre(genreID) {
     let selectGenre = document.getElementById("select-genre");
     let updateGenreName = document.getElementById("update-genreName");
 
-    // Set form fields with current values
+    // Set the form fields with current values
     let table = document.getElementById("genres-table");
     for (let i=0, row; row=table.rows[i]; i++) {
         if (table.rows[i].getAttribute("data-value") == genreID) {

@@ -36,9 +36,7 @@ updateGenreForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             // Update row in table
             updateRowInTable(xhttp.response);
-        }
-
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
+        } else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -49,14 +47,23 @@ updateGenreForm.addEventListener("submit", function (e) {
 
 function updateRowInTable(data) {
     let parsedData = JSON.parse(data);
-    let updatedBook = parsedData[0];
+    let updatedGenre = parsedData[0];
 
     let table = document.getElementById("genres-table");
-    for (let i=0, row; row=table.rows[i]; i++) {
+    for (let i = 0, row; row = table.rows[i]; i++) {
         if (table.rows[i].getAttribute("data-value") == updatedGenre.genreID) {
             let cells = table.rows[i].getElementsByTagName("TD");
             cells[1].innerText = updatedGenre.genreName;
             break;
         }
     }
+
+    // Update the genre in the select dropdown
+    let selectGenre = document.getElementById("select-genre");
+    let option = selectGenre.querySelector(`option[value='${updatedGenre.genreID}']`);
+    option.textContent = updatedGenre.genreName;
+
+    // Clear the form
+    document.getElementById('update-genreName').value = '';
+    selectGenre.value = '';
 }

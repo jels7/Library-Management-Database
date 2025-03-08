@@ -136,7 +136,7 @@ function deleteGenre(genreID) {
 // Function to delete a row from the table
 function deleteRow(genreID) {
     let table = document.getElementById("genres-table");
-    for (let i=0, row; row=table.rows[i]; i++) {
+    for (let i = 0, row; row = table.rows[i]; i++) {
         // Iterate thru rows
         // Rows are accessed using 'row' variable assigned in for loop
         if (table.rows[i].getAttribute("data-value") == genreID) {
@@ -147,7 +147,7 @@ function deleteRow(genreID) {
 
     // Remove deleted genre from dropdown menu
     let selectMenu = document.getElementById("select-genre");
-    for (let i=0; i < selectMenu.options.length; i++) {
+    for (let i = 0; i < selectMenu.options.length; i++) {
         if (selectMenu.options[i].value == genreID) {
             selectMenu.remove(i);
             break;
@@ -164,7 +164,7 @@ function editGenre(genreID) {
 
     // Set the form fields with current values
     let table = document.getElementById("genres-table");
-    for (let i=0, row; row=table.rows[i]; i++) {
+    for (let i = 0, row; row = table.rows[i]; i++) {
         if (table.rows[i].getAttribute("data-value") == genreID) {
             let cells = table.rows[i].getElementsByTagName("TD");
             selectGenre.value = genreID;

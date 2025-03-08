@@ -28,7 +28,7 @@ function deleteGenre(genreID) {
 // Function to delete a row from the table
 function deleteRow(genreID) {
     let table = document.getElementById("genres-table");
-    for (let i=0, row; row=table.rows[i]; i++) {
+    for (let i = 0, row; row = table.rows[i]; i++) {
         // Iterate thru rows
         // Rows are accessed using 'row' variable assigned in for loop
         if (table.rows[i].getAttribute("data-value") == genreID) {

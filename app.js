@@ -48,7 +48,7 @@ app.get('/books', function (req, res) {
 app.get('/genres', function (req, res) {
     let query1 = "SELECT * FROM Genres;";
     db.pool.query(query1, function (error, rows, fields) {
-        res.render('genres', { data: rows});
+        res.render('genres', { data: rows });
     });
 });
 

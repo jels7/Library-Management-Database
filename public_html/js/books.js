@@ -1,3 +1,20 @@
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/get-genres')
+        .then(response => response.json())
+        .then(data => {
+            let genreSelect = document.getElementById('input-genreID');
+            let updateGenreSelect = document.getElementById('update-genreID');
+            data.forEach(genre => {
+                let option = document.createElement('option');
+                option.value = genre.genreID;
+                option.text = genre.genreName;
+                genreSelect.appendChild(option);
+                updateGenreSelect.appendChild(option.cloneNode(true));
+            });
+        })
+        .catch(error => console.error('Error fetching genres:', error));
+});
+
 // Get the objects we need to modify
 let addBookForm = document.getElementById('add-book-form-ajax');
 
@@ -49,7 +66,7 @@ addBookForm.addEventListener("submit", function (e) {
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
 
-})
+});
 
 // Creates a single row from an Object representing a single record from Books
 addRowToTable = (data) => {

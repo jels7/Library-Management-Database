@@ -21,10 +21,8 @@ CREATE TABLE IF NOT EXISTS Genres (
 CREATE TABLE IF NOT EXISTS Donations (
     donationID INT AUTO_INCREMENT NOT NULL,
     donorName VARCHAR(45) NOT NULL,
-    bookID INT NOT NULL,
     donationDate DATE NOT NULL,
-    PRIMARY KEY (donationID),
-    FOREIGN KEY (bookID) REFERENCES Books(bookID)
+    PRIMARY KEY (donationID)
 );
 
 -- Create the 'Books' table
@@ -36,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Books (
     copiesAvailable INT NOT NULL,
     PRIMARY KEY (bookID),
     FOREIGN KEY (genreID) REFERENCES Genres(genreID),
-    FOREIGN KEY (donationID) REFERENCES Donations(donationID)
+    FOREIGN KEY (donationID) REFERENCES Donations(donationID) ON DELETE SET NULL
 );
 
 -- Create the 'BorrowedBooks' table
@@ -68,6 +66,14 @@ INSERT INTO Genres (genreName) VALUES
 ('Mystery'),
 ('Fiction');
 
+-- Insert example data into 'Donations' table
+INSERT INTO Donations (donorName, donationDate) VALUES
+('Jane Doe', '2023-01-10'),
+('John Smith', '2023-02-14'),
+('Mary Johnson', '2023-03-01'),
+('Emily Davis', '2024-01-10'),
+('Robert Brown', '2024-06-11');
+
 -- Insert example data into 'Books' table
 INSERT INTO Books (bookTitle, genreID, donationID, copiesAvailable) VALUES
 ('The Great Adventure', 1, 1, 3),
@@ -75,14 +81,6 @@ INSERT INTO Books (bookTitle, genreID, donationID, copiesAvailable) VALUES
 ('Science Made Simple', 3, 3, 2),
 ('The Mystery Unfolds', 4, 4, 4),
 ('The Great Gatsby', 5, 5, 3);
-
--- Insert example data into 'Donations' table
-INSERT INTO Donations (donorName, bookID, donationDate) VALUES
-('Jane Doe', 1, '2023-01-10'),
-('John Smith', 2, '2023-02-14'),
-('Mary Johnson', 3, '2023-03-01'),
-('Emily Davis', 4, '2024-01-10'),
-('Robert Brown', 5, '2024-06-11');
 
 -- Insert example data into 'BorrowedBooks' table
 INSERT INTO BorrowedBooks (patronID, bookID, borrowDate, returnDate, dueDate) VALUES

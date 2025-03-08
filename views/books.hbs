@@ -39,17 +39,7 @@
         </nav>
     </header>
     <main>
-        <section>
-            <h2>Genre List</h2>
-            <p>GenreID to Genre Name:</p>
-            <ul class="genre-list">
-                <li>Genre ID: 1 Adventure</li>
-                <li>Genre ID: 2 Cooking</li>
-                <li>Genre ID: 3 Science</li>
-                <li>Genre ID: 4 Mystery</li>
-                <li>Genre ID: 5 Fiction</li>
-            </ul>
-        </section>
+        <!-- Removed Genre List Section -->
         <section>
             <h2>Books List</h2>
             <table class="table" id="books-table">
@@ -84,8 +74,10 @@
                 <label for="input-bookTitle">Title:</label>
                 <input type="text" id="input-bookTitle" name="bookTitle" required>
 
-                <label for="input-genreID">Genre ID:</label>
-                <input type="number" id="input-genreID" name="genreID" required>
+                <label for="input-genreID">Genre:</label>
+                <select id="input-genreID" name="genreID" required>
+                    <!-- Options will be populated dynamically -->
+                </select>
 
                 <label for="input-copiesAvailable">Copies Available:</label>
                 <input type="number" id="input-copiesAvailable" name="copiesAvailable" required>
@@ -105,13 +97,15 @@
                 </select>
 
                 <label for="update-bookTitle">New Title:</label>
-                <input type="text" id="update-bookTitle" name="bookTitle">
+                <input type="text" id="update-bookTitle" name="update-bookTitle" required>
 
-                <label for="update-genreID">New Genre ID:</label>
-                <input type="number" id="update-genreID" name="genreID">
+                <label for="update-genreID">New Genre:</label>
+                <select id="update-genreID" name="update-genreID" required>
+                    <!-- Options will be populated dynamically -->
+                </select>
 
                 <label for="update-copiesAvailable">New Copies Available:</label>
-                <input type="number" id="update-copiesAvailable" name="copiesAvailable">
+                <input type="number" id="update-copiesAvailable" name="update-copiesAvailable" required>
 
                 <button type="submit">Update</button>
             </form>

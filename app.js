@@ -52,6 +52,19 @@ app.get('/genres', function (req, res) {
     });
 });
 
+// Add this route to fetch genres
+app.get('/get-genres', function (req, res) {
+    let query = 'SELECT genreID, genreName FROM Genres';
+    db.pool.query(query, function (error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(500);
+        } else {
+            res.json(rows);
+        }
+    });
+});
+
 
 // POST ROUTES
 

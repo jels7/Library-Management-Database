@@ -37,7 +37,6 @@
                     <tr>
                         <th>Donation ID</th>
                         <th>Donor Name</th>
-                        <th>Book ID</th>
                         <th>Donation Date</th>
                         <th>Actions</th>
                     </tr>
@@ -47,7 +46,6 @@
                     <tr data-value="{{this.donationID}}">
                         <td>{{this.donationID}}</td>
                         <td>{{this.donorName}}</td>
-                        <td>{{this.bookID}}</td>
                         <td>{{this.donationDate}}</td>
                         <td>
                             <button onclick="editDonation({{this.donationID}})">Edit</button>
@@ -63,9 +61,6 @@
             <form id="add-donation-form-ajax">
                 <label for="input-donorName">Donor Name:</label>
                 <input type="text" id="input-donorName" name="donorName" required>
-
-                <label for="input-bookID">Book ID:</label>
-                <input type="number" id="input-bookID" name="bookID" required>
 
                 <label for="input-donationDate">Donation Date:</label>
                 <input type="date" id="input-donationDate" name="donationDate" required>
@@ -86,9 +81,6 @@
 
                 <label for="update-donorName">New Donor Name:</label>
                 <input type="text" id="update-donorName" name="donorName">
-
-                <label for="update-bookID">New Book ID:</label>
-                <input type="number" id="update-bookID" name="bookID">
 
                 <label for="update-donationDate">New Donation Date:</label>
                 <input type="date" id="update-donationDate" name="donationDate">

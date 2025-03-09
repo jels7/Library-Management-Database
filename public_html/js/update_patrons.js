@@ -9,11 +9,13 @@ updatePatronForm.addEventListener("submit", function (e) {
 
     // Get form fields we need to get data from
     let selectPatron = document.getElementById("select-patron");
+    let updatePatronName = document.getElementById("update-patronName");
     let updatePhoneNum = document.getElementById("update-phoneNum");
     let updateMembershipDate = document.getElementById("update-membershipDate");
 
     // Get the values from the form fields
     let patronID = selectPatron.value;
+    let patronNameValue = updatePatronName.value;
     let phoneNumValue = updatePhoneNum.value;
     let membershipDateValue = updateMembershipDate.value;
 
@@ -25,6 +27,7 @@ updatePatronForm.addEventListener("submit", function (e) {
     // Put our data we want to send in a javascript object
     let data = {
         patronID: patronID,
+        patronName: patronNameValue,
         phoneNum: phoneNumValue,
         membershipDate: membershipDateValue
     }
@@ -57,6 +60,7 @@ function updateRowInTable(data) {
     for (let i = 0, row; row = table.rows[i]; i++) {
         if (table.rows[i].getAttribute("data-value") == updatedPatron.patronID) {
             let cells = table.rows[i].getElementsByTagName("td");
+            cells[1].innerText = updatedPatron.patronName; // Update the name
             cells[2].innerText = updatedPatron.phoneNum;
             cells[3].innerText = updatedPatron.membershipDate;
             break;

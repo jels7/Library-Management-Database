@@ -373,14 +373,15 @@ app.put('/update-patron-ajax', function (req, res) {
     let data = req.body;
 
     let patronID = parseInt(data.patronID);
+    let patronName = data.patronName;
     let phoneNum = data.phoneNum;
     let membershipDate = data.membershipDate;
 
-    let queryUpdatePatron = `UPDATE Patrons SET phoneNum = ?, membershipDate = ? WHERE patronID = ?`;
+    let queryUpdatePatron = `UPDATE Patrons SET patronName = ?, phoneNum = ?, membershipDate = ? WHERE patronID = ?`;
     let selectUpdatedPatron = `SELECT * FROM Patrons WHERE patronID = ?`;
 
     // Run the update query
-    db.pool.query(queryUpdatePatron, [phoneNum, membershipDate, patronID], function (error, rows, fields) {
+    db.pool.query(queryUpdatePatron, [patronName, phoneNum, membershipDate, patronID], function (error, rows, fields) {
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);

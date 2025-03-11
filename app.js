@@ -52,7 +52,8 @@ app.get('/genres', function (req, res) {
     });
 });
 
-// Render the donations page
+
+/// Render the donations page
 app.get('/donations', function (req, res) {
     let query1 = "SELECT * FROM Donations;";
     db.pool.query(query1, function (error, rows, fields) {
@@ -242,56 +243,65 @@ app.post('/add-genre-form', function (req, res) {
     });
 });
 
-// Add a donation via AJAX
 app.post('/add-donation-ajax', function (req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
+    // Validate input data
+    if (!data.donorName || !data.bookID || !data.donationDate) {
+        return res.status(400).send('Invalid input data. Please fill out all fields.');
+    }
+
+    // Ensure bookID exists in the Books table
+    const checkBookIDQuery = 'SELECT * FROM Books WHERE bookID = ?';
+    db.pool.query(checkBookIDQuery, [data.bookID], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Server error');
+        }
+
+        if (results.length === 0) {
+            // If bookID does not exist, create a new book entry
+            const createBookQuery = 'INSERT INTO Books (bookID, title) VALUES (?, ?)';
+            db.pool.query(createBookQuery, [data.bookID, 'Unknown Title'], (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send('Server error');
+                }
+
+                // Proceed to add the donation after creating the book entry
+                addDonation(data, res);
+            });
+        } else {
+            // Proceed to add the donation if bookID exists
+            addDonation(data, res);
+        }
+    });
+});
+
+function addDonation(data, res) {
     // Create the query and run it on the database
-    let query1 = `INSERT INTO Donations (donorName, donationDate) VALUES ('${data.donorName}', '${data.donationDate}')`;
-    db.pool.query(query1, function (error, rows, fields) {
+    let query1 = `INSERT INTO Donations (donorName, bookID, donationDate) VALUES (?, ?, ?)`;
+    db.pool.query(query1, [data.donorName, data.bookID, data.donationDate], function (error, results) {
         // Check to see if there was an error
         if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         } else {
-            // If there was no error, perform a SELECT * on Donations
-            let query2 = `SELECT * FROM Donations`;
-            db.pool.query(query2, function (error, rows, fields) {
-                // If there was an error on the second query, send a 400
+            // Retrieve the newly added donation
+            let query2 = `SELECT * FROM Donations WHERE donationID = ?`;
+            db.pool.query(query2, [results.insertId], function (error, rows) {
                 if (error) {
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    // If all went well, send the results of the query back.
-                    res.send(rows);
+                    // Send the newly added donation data back to the client
+                    res.json(rows[0]);
                 }
             });
         }
     });
-});
-
-// Add a donation via form submissions
-app.post('/add-donation-form', function (req, res) {
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Donations (donorName, donationDate) VALUES ('${data['input-donorName']}', '${data['input-donationDate']}')`;
-    db.pool.query(query1, function (error, rows, fields) {
-        // Check to see if there was an error
-        if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            // If there was no error, redirect back to the patrons page
-            res.redirect('/donations');
-        }
-    });
-});
+}
 
 // DELETE ROUTE
 
@@ -468,20 +478,21 @@ app.put('/update-donation-ajax', function (req, res) {
 
     let donationID = parseInt(data.donationID);
     let donorName = data.donorName;
+    let bookID = data.bookID;
     let donationDate = data.donationDate;
 
-    let queryUpdateDonation = `UPDATE Donations SET donorName = ?, donationDate = ? WHERE donationID = ?`;
-    let selectUpdatedDonation = `SELECT * FROM Patrons WHERE patronID = ?`;
+    let queryUpdateDonation = `UPDATE Donations SET donorName = ?, bookID = ?, donationDate = ? WHERE donationID = ?`;
+    let selectUpdatedDonation = `SELECT * FROM Donations WHERE donationID = ?`;
 
     // Run the update query
-    db.pool.query(queryUpdatePatron, [phoneNum, membershipDate, patronID], function (error, rows, fields) {
+    db.pool.query(queryUpdateDonation, [donorName, bookID, donationDate, donationID], function (error, rows, fields) {
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         } else {
             // Run the select query to get the updated data
-            db.pool.query(selectUpdatedPatron, [patronID], function (error, rows, fields) {
+            db.pool.query(selectUpdatedDonation, [donationID], function (error, rows, fields) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(400);

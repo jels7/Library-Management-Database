@@ -2,7 +2,7 @@
 let addDonationForm = document.getElementById('add-donation-form-ajax');
 
 // Modify the objects that we need
-addDonationForm.addEventListener("submit)", function (e) {
+addDonationForm.addEventListener("submit", function (e) {
 
     // Prevent form from submitting
     e.preventDefault();
@@ -168,7 +168,7 @@ function editDonation(donationID) {
     // Set form fields with current values
     let table = document.getElementById("donations-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
-        if (table.rows[i].getAttribute("date-value") == donationID) {
+        if (table.rows[i].getAttribute("data-value") == donationID) {
             let cells = table.rows[i].getElementsByTagName("TD");
             selectDonation.value = donationID;
             updateDonorName.value = cells[2].innerText;

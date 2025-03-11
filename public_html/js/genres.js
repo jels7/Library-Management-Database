@@ -84,6 +84,7 @@ addRowToTable = (data) => {
     // Add buttons to actions cell
     actionsCell.appendChild(editButton);
     actionsCell.appendChild(deleteButton);
+    actionsCell.appendChild(actionsCell);
 
     // Add cells to row
     row.appendChild(idCell);

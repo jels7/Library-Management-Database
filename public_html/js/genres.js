@@ -88,6 +88,7 @@ addRowToTable = (data) => {
     // Add cells to row
     row.appendChild(idCell);
     row.appendChild(nameCell);
+    row.appendChild(actionsCell);
 
     // Add row attribute so delete function can find a newly added row
     row.setAttribute('data-value', newRow.genreID);

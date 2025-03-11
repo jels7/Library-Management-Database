@@ -1,52 +1,67 @@
 // Get the objects we need to modify
-let updateDonationForm = document.getElementById('update-donation-form-ajax');
+const updateDonationForm = document.getElementById('update-donation-form-ajax');
 
 // Modify the objects we need
 updateDonationForm.addEventListener("submit", function (e) {
+    e.preventDefault(); // Prevent default form submission
 
-    // Prevent the form from submitting
-    e.preventDefault();
+    // Get the form fields
+    const selectDonation = document.getElementById("select-donation");
+    const updateDonorName = document.getElementById("update-donorName");
+    const updateBookID = document.getElementById("update-bookID");
+    const updateDonationDate = document.getElementById("update-donationDate");
 
-    // Get the form fields that we need data from
-    let selectDonation = document.getElementById("select-donation");
-    let updateDonorName = document.getElementById("update-donorName");
-    let updateDonationDate = document.getElementById("update-donationDate");
-
-    // Get values from form fields
-    let donationID = selectDonation.value;
-    let donorNameValue = updateDonorName.value;
-    let donationDateValue = updateDonationDate.value;
-
-    // Ensure that donor name and donation date are not empty
-    if (!donorNameValue || !donationDateValue) {
+    // Ensure the selected value is valid before parsing
+    if (!selectDonation.value) {
+        alert("Please select a valid donation to update.");
         return;
     }
 
-    // Put sendable data into JS object
-    let data = {
-        donationID: donationID,
-        donorName: donorNameValue,
-        donationDate: donationDateValue
+    // Get values
+    const donationID = Number(selectDonation.value);
+    const donorNameValue = updateDonorName.value.trim();
+    const bookIDValue = Number(updateBookID.value);
+    const donationDateValue = updateDonationDate.value;
+
+    // Input validation
+    if (isNaN(donationID) || donationID <= 0) {
+        alert("Invalid donation selection. Please choose a valid donation.");
+        return;
+    }
+    if (!donorNameValue || isNaN(bookIDValue) || bookIDValue <= 0 || !donationDateValue) {
+        alert("Invalid input. Please ensure all fields are correctly filled.");
+        return;
     }
 
-    // Set up AJAX req
-    var xhttp = new XMLHttpRequest();
+    // Prepare data object
+    const data = {
+        donationID,
+        donorName: donorNameValue,
+        bookID: bookIDValue,
+        donationDate: donationDateValue
+    };
+
+    // Set up AJAX request
+    const xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/update-donation-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
-    // Tell AJAX req how to resolve
+    // Handle response
     xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            // Update the row in the table
-            updateRowInTable(xhttp.response);
+        if (xhttp.readyState === 4) {
+            if (xhttp.status === 200) {
+                try {
+                    updateRowInTable(xhttp.responseText);
+                } catch (error) {
+                    console.error("Error updating table:", error);
+                }
+            } else {
+                alert("There was an error updating the donation. Please try again.");
+            }
         }
+    };
 
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
-        }
-    }
-
-    // Send the request and wait for the response
+    // Send request
     xhttp.send(JSON.stringify(data));
 });
 
@@ -58,7 +73,8 @@ function updateRowInTable(data) {
     for (let i = 0, row; row = table.rows[i]; i++) {
         if (table.rows[i].getAttribute("data-value") == updatedDonation.donationID) {
             let cells = table.rows[i].getElementsByTagName("TD");
-            cells[2].innerText = updatedDonation.donorName;
+            cells[1].innerText = updatedDonation.donorName;
+            cells[2].innerText = updatedDonation.bookID;
             cells[3].innerText = updatedDonation.donationDate;
             break;
         }

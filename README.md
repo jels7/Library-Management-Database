@@ -1,9 +1,7 @@
-## Citation
-## Based on the CS 340 Node.js Starter Guide
-## Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
-## 3/12/2025
-## Group 7
-## Meredith Baker & Anjelica Cucchiara
+Based on the CS 340 Node.js Starter Guide
+
+
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
 
 
@@ -21,3 +19,7 @@ The Community Library Management System is a static front-end application design
 - **Donations Management**: Track donations made to the library.
 - **Genres Management**: Manage the genres available in the library.
 - **Borrowed Books Management**: Keep track of borrowed books and manage checkouts and returns.
+  
+
+
+

@@ -1,3 +1,20 @@
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/get-books')
+        .then(response => response.json())
+        .then(data => {
+            let bookSelect = document.getElementById('input-bookID');
+            let updateBookSelect = document.getElementById('update-bookID');
+            data.forEach(book => {
+                let option = document.createElement('option');
+                option.value = book.bookID;
+                option.text = book.bookID; // Set bookID as the text content
+                bookSelect.appendChild(option);
+                updateBookSelect.appendChild(option.cloneNode(true));
+            });
+        })
+        .catch(error => console.error('Error fetching books:', error));
+});
+
 // Get the form element
 let addDonationForm = document.getElementById('add-donation-form-ajax');
 
@@ -19,7 +36,7 @@ addRowToTable = (data) => {
     donationIDCell.innerText = data.donationID;
     donorNameCell.innerText = data.donorName;
     bookIDCell.innerText = data.bookID;
-    donationDateCell.innerText = data.donationDate;
+    donationDateCell.innerText = new Date(data.donationDate).toLocaleDateString();
 
     // Create the Edit and Delete buttons
     let editButton = document.createElement("button");
@@ -116,6 +133,7 @@ function editDonation(donationID) {
     // Get the form fields that we need to modify
     let selectDonation = document.getElementById("select-donation");
     let updateDonorName = document.getElementById("update-donorName");
+    let updateBookID = document.getElementById("update-bookID");
     let updateDonationDate = document.getElementById("update-donationDate");
 
     // Set form fields with current values
@@ -125,7 +143,8 @@ function editDonation(donationID) {
             let cells = table.rows[i].getElementsByTagName("TD");
             selectDonation.value = donationID;
             updateDonorName.value = cells[1].innerText;
-            updateDonationDate.value = cells[3].innerText;
+            updateBookID.value = cells[2].innerText;
+            updateDonationDate.value = new Date(cells[3].innerText).toISOString().split('T')[0];
             break;
         }
     }

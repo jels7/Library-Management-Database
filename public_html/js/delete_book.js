@@ -1,3 +1,13 @@
+// Citation
+// Based on the CS 340 Node.js Starter Guide
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+// 3/12/2025
+// Group 7
+// Meredith Baker & Anjelica Cucchiara
+
+
+
+// Function to delete a book
 function deleteBook(bookID) {
     // Put our data we want to send in a javascript object
     let data = {

@@ -35,6 +35,9 @@ addRowToTable = (data) => {
     // Create a new row and cells
     let newRow = currentTable.insertRow();
 
+    // Set attribute for deletion
+    newRow.setAttribute("data-value", data.donationID);
+
     let donationIDCell = newRow.insertCell(0);
     let donorNameCell = newRow.insertCell(1);
     let bookIDCell = newRow.insertCell(2);

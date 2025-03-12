@@ -7,8 +7,8 @@ updateBorrowedBookForm.addEventListener("submit", function (e) {
 
     // Get form fields
     const selectBorrowedBook = document.getElementById("select-borrowed-book");
-    const updatePatronId = document.getElementById("update-patronId");
-    const updateBookId = document.getElementById("update-bookId");
+    const updatePatronID = document.getElementById("update-patronID");
+    const updateBookID = document.getElementById("update-bookID");
     const updateBorrowDate = document.getElementById("update-borrowDate");
     const updateReturnDate = document.getElementById("update-returnDate");
     const updateDueDate =  document.getElementById("update-dueDate");
@@ -20,19 +20,19 @@ updateBorrowedBookForm.addEventListener("submit", function (e) {
     }
 
     // Get values
-    const borrowedBookId = Number(selectBorrowedBook.value);
-    const patronIdValue = Number(updatePatronId.value);
-    const bookIdValue = Number(updateBookId.value);
+    const borrowedBookID = Number(selectBorrowedBook.value);
+    const patronIDValue = Number(updatePatronID.value);
+    const bookIDValue = Number(updateBookID.value);
     const borrowDateValue = updateBorrowDate.value;
     const returnDateValue = updateReturnDate.value;
     const dueDateValue = updateDueDate.value;
 
     // Input validation
-    if (isNaN(borrowedBookId) || borrowedBookId <= 0) {
+    if (isNaN(borrowedBookID) || borrowedBookID <= 0) {
         alert("Invalid selection. Please choose a valid book.");
         return;
     }
-    if (isNaN(patronIdValue) || patronIdValue <= 0 || isNaN(bookIdValue) || bookIdValue <= 0 || !borrowDateValue || !returnDateValue || !dueDateValue) {
+    if (isNaN(patronIDValue) || patronIDValue <= 0 || isNaN(bookIDValue) || bookIDValue <= 0 || !borrowDateValue || !returnDateValue || !dueDateValue) {
         alert("Invalid input. Please ensure all fields are correctly filled.");
         return;
     }
@@ -44,9 +44,9 @@ updateBorrowedBookForm.addEventListener("submit", function (e) {
 
     // Prepare data object
     const data = {
-        borrowedBookId,
-        patronId: patronIdValue,
-        bookId: bookIdValue,
+        borrowedBookID,
+        patronID: patronIDValue,
+        bookID: bookIDValue,
         borrowDate: borrowDateValue,
         returnDate: returnDateValue,
         dueDate: dueDateValue
@@ -82,10 +82,10 @@ function updateRowInTable(data) {
 
     let table = document.getElementById("borrowed-books-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
-        if (table.rows[i].getAttribute("data-value") == updatedBorrowedBook.borrowedBookId) {
+        if (table.rows[i].getAttribute("data-value") == updatedBorrowedBook.borrowedBookID) {
             let cells = table.rows[i].getElementsByTagName("TD");
-            cells[1].innerText = updatedBorrowedBook.patronId;
-            cells[2].innerText = updatedBorrowedBook.bookId;
+            cells[1].innerText = updatedBorrowedBook.patronID;
+            cells[2].innerText = updatedBorrowedBook.bookID;
             cells[3].innerText = updatedBorrowedBook.borrowDate;
             cells[4].innerText = updatedBorrowedBook.returnDate;
             cells[5].innerText = updatedBorrowedBook.dueDate;

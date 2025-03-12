@@ -1,3 +1,11 @@
+// Citation
+// Based on the CS 340 Node.js Starter Guide
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+// 3/12/2025
+// Group 7
+// Meredith Baker & Anjelica Cucchiara
+
+
 function deleteDonation(donationID) {
     // Put sendable data in JS object
     let data = {

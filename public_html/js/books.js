@@ -6,7 +6,8 @@
 // Meredith Baker & Anjelica Cucchiara
 
 
-
+// Listens for the DOM content to be fully loaded, then fetches genre data from the server.
+// Once the data is received, it populates two dropdown menus ('input-genreID' and 'update-genreID') with the genre options.
 document.addEventListener('DOMContentLoaded', function () {
     fetch('/get-genres')
         .then(response => response.json())

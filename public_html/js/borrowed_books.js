@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('/get-patrons')
         .then(response => response.json())
         .then(data => {
-            let patronSelect = document.getElementById('input-patronId');
-            let updatePatronSelect = document.getElementById('update-patronId');
+            let patronSelect = document.getElementById('input-patronID');
+            let updatePatronSelect = document.getElementById('update-patronID');
             data.forEach(patron => {
                 let option = document.createElement('option');
                 option.value = patron.patronID;
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('/get-books')
         .then(response => response.json())
         .then(data => {
-            let bookSelect = document.getElementById('input-bookId');
-            let updateBookSelect = document.getElementById('update-bookId');
+            let bookSelect = document.getElementById('input-bookID');
+            let updateBookSelect = document.getElementById('update-bookID');
             data.forEach(book => {
                 let option = document.createElement('option');
                 option.value = book.bookID;
@@ -40,23 +40,23 @@ addBorrowedBookForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputPatronId = document.getElementById("input-patronId");
-    let inputBookId = document.getElementById("input-bookId");
+    let inputPatronID = document.getElementById("input-patronID");
+    let inputBookID = document.getElementById("input-bookID");
     let inputBorrowDate = document.getElementById("input-borrowDate");
     let inputReturnDate = document.getElementById("input-returnDate");
     let inputDueDate = document.getElementById("input-dueDate");
 
     // Get the values from the form fields
-    let patronIdValue = inputPatronId.value;
-    let bookIdValue = inputBookId.value;
+    let patronIDValue = inputPatronID.value;
+    let bookIDValue = inputBookID.value;
     let borrowDateValue = inputBorrowDate.value;
     let returnDateValue = inputReturnDate.value;
     let dueDateValue = inputDueDate.value;
 
     // Put our data we want to send in a javascript object
     let data = {
-        patronID: patronIdValue,
-        bookID: bookIdValue,
+        patronID: patronIDValue,
+        bookID: bookIDValue,
         borrowDate: borrowDateValue,
         returnDate: returnDateValue,
         dueDate: dueDateValue
@@ -75,8 +75,8 @@ addBorrowedBookForm.addEventListener("submit", function (e) {
             addRowToTable(JSON.parse(xhttp.responseText));
 
             // Clear the input fields for another transaction
-            inputPatronId.value = '';
-            inputBookId.value = '';
+            inputPatronID.value = '';
+            inputBookID.value = '';
             inputBorrowDate.value = '';
             inputReturnDate.value = '';
             inputDueDate.value = '';
@@ -208,8 +208,8 @@ function deleteRow(borrowedBookID) {
 function editBorrowedBook(borrowedBookID) {
     // Get the form fields we need to modify
     let selectBorrowedBook = document.getElementById("select-borrowed-book");
-    let updatePatronId = document.getElementById("update-patronId");
-    let updateBookId = document.getElementById("update-bookId");
+    let updatePatronID = document.getElementById("update-patronID");
+    let updateBookID = document.getElementById("update-bookID");
     let updateBorrowDate = document.getElementById("update-borrowDate");
     let updateReturnDate = document.getElementById("update-returnDate");
     let updateDueDate = document.getElementById("update-dueDate");
@@ -220,8 +220,8 @@ function editBorrowedBook(borrowedBookID) {
         if (table.rows[i].getAttribute("data-value") == borrowedBookID) {
             let cells = table.rows[i].getElementsByTagName("td");
             selectBorrowedBook.value = borrowedBookID;
-            updatePatronId.value = cells[1].innerText;
-            updateBookId.value = cells[2].innerText;
+            updatePatronID.value = cells[1].innerText;
+            updateBookID.value = cells[2].innerText;
             updateBorrowDate.value = cells[3].innerText;
             updateReturnDate.value = cells[4].innerText;
             updateDueDate.value = cells[5].innerText;

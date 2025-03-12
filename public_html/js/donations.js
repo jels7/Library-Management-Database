@@ -35,9 +35,6 @@ addRowToTable = (data) => {
     // Create a new row and cells
     let newRow = currentTable.insertRow();
 
-    // Set attribute for deletion
-    newRow.setAttribute("data-value", data.donationID);
-
     let donationIDCell = newRow.insertCell(0);
     let donorNameCell = newRow.insertCell(1);
     let bookIDCell = newRow.insertCell(2);
@@ -126,6 +123,32 @@ addDonationForm.addEventListener("submit", function (e) {
     xhttp.send(JSON.stringify(data));
 });
 
+// Delete a donation
+function deleteDonation(donationID) {
+    // Put sendable data into JS object
+    let data = {
+        id: donationID
+    };
+
+    // AJAX request
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("DELETE", "/delete-donation-ajax", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    // Tell AJAX req how to resolve
+    xhttp.onreadystatechange = () => {
+        if (xhttp.readyState === 4 && xhttp.status === 204) {
+            deleteRow(donationID);
+        }
+        else if (xhttp.readyState === 4 && xhttp.status != 204) {
+            console.log("There was an error with the input.")
+        }
+    }
+    // Send request
+    xhttp.send(JSON.stringify(data));
+}
+
+// Delete a row from the table
 function deleteRow(donationID) {
     let table = document.getElementById("donations-table");
     for (let i = 0, row; row = table.rows[i]; i++) {

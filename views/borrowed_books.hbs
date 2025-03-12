@@ -1,3 +1,11 @@
+// Citation
+// Based on the CS 340 Node.js Starter Guide
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+// 3/12/2025
+// Group 7
+// Meredith Baker & Anjelica Cucchiara
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +19,15 @@
             background: #b9b9b7;
         }
 
+        .genre-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .genre-list li {
+            list-style: none;
+        }
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
@@ -65,11 +82,15 @@
         <section>
             <h2>Add Borrowed Book</h2>
             <form id="add-borrowed-book-form-ajax">
-                <label for="input-patronID">Patron ID:</label>
-                <input type="number" id="input-patronID" name="patronID" required>
+                <label for="input-patronId">Patron ID:</label>
+                <select id="input-patronId" name="patronId" required>
+                    <option value="">Select a Patron</option>
+                </select>
 
-                <label for="input-bookID">Book ID:</label>
-                <input type="number" id="input-bookID" name="bookID" required>
+                <label for="input-bookId">Book ID:</label>
+                <select id="input-bookId" name="bookId" required>
+                    <option value="">Select a Book</option>
+                </select>
 
                 <label for="input-borrowDate">Borrow Date:</label>
                 <input type="date" id="input-borrowDate" name="borrowDate" required>
@@ -94,11 +115,15 @@
                     {{/each}}
                 </select>
 
-                <label for="update-patronID">New Patron ID:</label>
-                <input type="number" id="update-patronID" name="patronID">
+                <label for="update-patronId">New Patron ID:</label>
+                <select id="update-patronId" name="patronId">
+                    <option value="">Select a Patron</option>
+                </select>
 
-                <label for="update-bookID">New Book ID:</label>
-                <input type="number" id="update-bookID" name="bookID">
+                <label for="update-bookId">New Book ID:</label>
+                <select id="update-bookId" name="bookId">
+                    <option value="">Select a Book</option>
+                </select>
 
                 <label for="update-borrowDate">New Borrow Date:</label>
                 <input type="date" id="update-borrowDate" name="borrowDate">
@@ -112,11 +137,10 @@
                 <button type="submit">Update</button>
             </form>
         </section>
-
     </main>
     <script src="./js/borrowed_books.js"></script>
     <script src="./js/delete_borrowed_books.js"></script>
-    <script src="./js/update_borrowed_book.js"></script>
+    <script src="./js/update_borrowed_books.js"></script>
 </body>
 
 </html>

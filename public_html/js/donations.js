@@ -51,13 +51,15 @@ addRowToTable = (data) => {
     let editButton = document.createElement("button");
     editButton.innerHTML = "Edit";
     editButton.onclick = function () {
-        editDonation(newRow.donationID);
+        let donationID = donationIDCell.innerText;
+        editDonation(donationID);
     };
 
     let deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = function () {
-        deleteDonation(newRow.donationID);
+        let donationID = donationIDCell.innerText;
+        deleteDonation(donationID);
     };
 
     // Append the buttons to the actions cell

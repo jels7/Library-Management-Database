@@ -52,12 +52,19 @@ app.get('/genres', function (req, res) {
     });
 });
 
-
-/// Render the donations page
+// Render the donations page
 app.get('/donations', function (req, res) {
     let query1 = "SELECT * FROM Donations;";
     db.pool.query(query1, function (error, rows, fields) {
         res.render('donations', { data: rows });
+    });
+});
+
+// Render the borrowed books page
+app.get('/borrowed_books', function (req, res) {
+    let query1 = "SELECT * FROM BorrowedBooks;";
+    db.pool.query(query1, function (error, rows, fields) {
+        res.render('borrowed_books', { data: rows });
     });
 });
 
@@ -77,6 +84,19 @@ app.get('/get-genres', function (req, res) {
 // Add this route to fetch donations
 app.get('/get-donations', function (req, res) {
     let query = 'SELECT donationID, donorName, donationDate FROM Donations';
+    db.pool.query(query, function (error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(500);
+        } else {
+            res.json(rows);
+        }
+    });
+});
+
+// Add this route to fetch borrowed books
+app.get('/get-borrowed-books', function (req, res) {
+    let query = 'SELECT borrowedBookID, patronID, bookID, borrowDate, returnDate, dueDate FROM BorrowedBooks';
     db.pool.query(query, function (error, rows, fields) {
         if (error) {
             console.log(error);
@@ -243,6 +263,7 @@ app.post('/add-genre-form', function (req, res) {
     });
 });
 
+// Add donation via AJAX
 app.post('/add-donation-ajax', function (req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
@@ -302,6 +323,68 @@ function addDonation(data, res) {
         }
     });
 }
+
+// Add borrowed book
+app.post('/add-borrowed-book-ajax', function (req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Validate input data
+    if (!data.patronID || !data.bookID || !data.borrowDate || !data.returnDate || !data.dueDate) {
+        return res.status(400).send('Invalid input data. Please fill out all fields.');
+    }
+
+    // Ensure bookID exists in the Books table
+    const checkBookIDQuery = 'SELECT * FROM Books WHERE bookID = ?';
+    db.pool.query(checkBookIDQuery, [data.bookID], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Server error');
+        }
+
+        if (results.length === 0) {
+            // If bookID does not exist, create a new book entry
+            const createBookQuery = 'INSERT INTO Books (bookID, title) VALUES (?, ?)';
+            db.pool.query(createBookQuery, [data.bookID, 'Unknown Title'], (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send('Server error');
+                }
+
+                // Proceed to add the borrowed book after creating the book entry
+                addBorrowedBook(data, res);
+            });
+        } else {
+            // Proceed to add the borrowed book if bookID exists
+            addBorrowedBook(data, res);
+        }
+    });
+});
+
+function addBorrowedBook(data, res) {
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO BorrowedBooks (patronID, bookID, borrowDate, returnDate, dueDate) VALUES (?, ?, ?, ?, ?)`;
+    db.pool.query(query1, [data.patronID, data.bookID, data.borrowDate, data.returnDate, data.dueDate], function (error, results) {
+        // Check to see if there was an error
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // Retrieve the newly added borrowed book
+            let query2 = `SELECT * FROM BorrowedBooks WHERE borrowedBookID = ?`;
+            db.pool.query(query2, [results.insertId], function (error, rows) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    // Send the newly added borrowed book data back to the client
+                    res.json(rows[0]);
+                }
+            });
+        }
+    });
+}
+
 
 // DELETE ROUTE
 
@@ -366,6 +449,24 @@ app.delete('/delete-donation-ajax', function (req, res) {
 
     // Run the delete query
     db.pool.query(deleteDonationQuery, [donationID], function (error, rows, fields) {
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
+// Delete a borrowed book via AJAX
+app.delete('/delete-borrowed-book-ajax', function (req, res) {
+    let data = req.body;
+    let borrowedBookID = parseInt(data.id);
+    let deleteBorrowedBookQuery = `DELETE FROM BorrowedBooks WHERE borrowedBookID = ?`;
+
+    // Run the delete query
+    db.pool.query(deleteBorrowedBookQuery, [borrowedBookID], function (error, rows, fields) {
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
@@ -503,6 +604,41 @@ app.put('/update-donation-ajax', function (req, res) {
         }
     });
 });
+
+// Update a borrowed book via AJAX
+app.put('/update-borrowed-book-ajax', function (req, res) {
+    let data = req.body;
+
+    let borrowedBookID = parseInt(data.borrowedBookID);
+    let patronID = data.patronID;
+    let bookID = data.bookID;
+    let borrowDate = data.borrowDate;
+    let returnDate = data.returnDate;
+    let dueDate = data.dueDate;
+
+    let queryUpdateBorrowedBook = `UPDATE BorrowedBooks SET patronID = ?, bookID = ?, borrowDate = ?, returnDate = ?, dueDate = ? WHERE borrowedBookID = ?`;
+    let selectUpdatedBorrowedBook = `SELECT * FROM BorrowedBooks WHERE borrowedBookID = ?`;
+
+    // Run the update query
+    db.pool.query(queryUpdateBorrowedBook, [patronID, bookID, borrowDate, returnDate, dueDate, borrowedBookID], function (error, rows, fields) {
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // Run the select query to get the updated data
+            db.pool.query(selectUpdatedBorrowedBook, [borrowedBookID], function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
 
 /*
     LISTENER

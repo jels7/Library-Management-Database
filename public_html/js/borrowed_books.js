@@ -44,24 +44,30 @@ let addBorrowedBookForm = document.getElementById('add-borrowed-book-form-ajax')
 
 // Creates a single row from an Object representing a single record from BorrowedBooks
 addRowToTable = (data) => {
+
     // Get reference to current table on the page
     let currentTable = document.getElementById("borrowed-books-table");
 
-    // Create a new row and cells
-    let newRow = currentTable.insertRow();
+    // Get location where we should insert the new row
+    let newRowIndex = currentTable.rows.length;
 
-    let borrowedBookIDCell = newRow.insertCell(0);
-    let patronIDCell = newRow.insertCell(1);
-    let bookIDCell = newRow.insertCell(2);
-    let borrowDateCell = newRow.insertCell(3);
-    let returnDateCell = newRow.insertCell(4);
-    let dueDateCell = newRow.insertCell(5);
-    let actionsCell = newRow.insertCell(6);
+    // Get reference to new row from the db query
+    let parsedData = JSON.parse(data);
+    let newRow = parsedData[parsedData.length - 1]
+
+    // Crete row and cells
+    let borrowedBookIDCell = document.createElement("TR");
+    let patronIDCell = document.createElement("TD");
+    let bookIDCell = document.createElement("TD");
+    let borrowDateCell = document.createElement("TD");
+    let returnDateCell = document.createElement("TD");
+    let dueDateCell = document.createElement("TD");
+    let actionsCell = document.createElement("TD");
 
     // Fill the cells with the appropriate data
-    borrowedBookIDCell.innerText = data.borrowedBookID;
-    patronIDCell.innerText = data.patronID;
-    bookIDCell.innerText = data.bookID;
+    borrowedBookIDCell.innerText = newRow.borrowedBookID;
+    patronIDCell.innerText = newRow.patronID;
+    bookIDCell.innerText = newRow.bookID;
     borrowDateCell.innerText = new Date(data.borrowDate).toLocaleDateString();
     returnDateCell.innerText = new Date(data.returnDate).toLocaleDateString();
     dueDateCell.innerText = new Date(data.dueDate).toLocaleDateString();
@@ -82,6 +88,21 @@ addRowToTable = (data) => {
     // Append the buttons to the actions cell
     actionsCell.appendChild(editButton);
     actionsCell.appendChild(deleteButton);
+
+    // Add cells to the row
+    row.appendChild(borrowedBookIDCell);
+    row.appendChild(patronIDCell);
+    row.appendChild(bookIDCell);
+    row.appendChild(borrowDateCell);
+    row.appendChild(returnDateCell);
+    row.appendChild(dueDateCell);
+    row.appendChild(actionsCell);
+
+    // Add row attribute so deleteRow can find a new row
+    row.setAttribute('data-value', newRow.borrowedBookID);
+
+    // Add row to the table
+    currentTable.appendChild(row);
 }
 
 // Modify the AJAX request to handle the response correctly

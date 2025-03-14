@@ -56,7 +56,8 @@ addRowToTable = (data) => {
     let newRow = parsedData[parsedData.length - 1]
 
     // Crete row and cells
-    let borrowedBookIDCell = document.createElement("TR");
+    let row = document.createElement("TR");
+    let borrowedBookIDCell = document.createElement("TD");
     let patronIDCell = document.createElement("TD");
     let bookIDCell = document.createElement("TD");
     let borrowDateCell = document.createElement("TD");
@@ -68,21 +69,21 @@ addRowToTable = (data) => {
     borrowedBookIDCell.innerText = newRow.borrowedBookID;
     patronIDCell.innerText = newRow.patronID;
     bookIDCell.innerText = newRow.bookID;
-    borrowDateCell.innerText = new Date(data.borrowDate).toLocaleDateString();
-    returnDateCell.innerText = new Date(data.returnDate).toLocaleDateString();
-    dueDateCell.innerText = new Date(data.dueDate).toLocaleDateString();
+    borrowDateCell.innerText = new Date(newRow.borrowDate).toLocaleDateString();
+    returnDateCell.innerText = new Date(newRow.returnDate).toLocaleDateString();
+    dueDateCell.innerText = new Date(newRow.dueDate).toLocaleDateString();
 
     // Create the Edit and Delete buttons
     let editButton = document.createElement("button");
     editButton.innerHTML = "Edit";
     editButton.addEventListener("click", function () {
-        editBorrowedBook(data.borrowedBookID);    
+        editBorrowedBook(newRow.borrowedBookID);    
     });
 
     let deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
     deleteButton.addEventListener("click", function () {
-        deleteBorrowedBook(data.borrowedBookID);
+        deleteBorrowedBook(newRow.borrowedBookID);
     });
 
     // Append the buttons to the actions cell

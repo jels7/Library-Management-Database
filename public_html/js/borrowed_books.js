@@ -69,17 +69,15 @@ addRowToTable = (data) => {
     // Create the Edit and Delete buttons
     let editButton = document.createElement("button");
     editButton.innerHTML = "Edit";
-    editButton.onclick = function () {
-        let borrowedBookID = borrowedBookIDCell.innerText;
-        editBorrowedBook(borrowedBookID);
-    };
+    editButton.addEventListener("click", function () {
+        editBorrowedBook(data.borrowedBookID);    
+    });
 
     let deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
-    deleteButton.onclick = function () {
-        let borrowedBookID = borrowedBookIDCell.innerText;
-        editBorrowedBook(borrowedBookID);
-    };
+    deleteButton.addEventListener("click", function () {
+        deleteBorrowedBook(data.borrowedBookID);
+    });
 
     // Append the buttons to the actions cell
     actionsCell.appendChild(editButton);

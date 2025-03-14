@@ -34,6 +34,7 @@ addRowToTable = (data) => {
 
     // Create a new row and cells
     let newRow = currentTable.insertRow();
+    newRow.setAttribute("data-value", data.donationID); // Set data-value attribute
 
     let donationIDCell = newRow.insertCell(0);
     let donorNameCell = newRow.insertCell(1);
@@ -49,22 +50,28 @@ addRowToTable = (data) => {
 
     // Create the Edit and Delete buttons
     let editButton = document.createElement("button");
-    editButton.innerHTML = "Edit";
-    editButton.onclick = function () {
-        let donationID = donationIDCell.innerText;
-        editDonation(donationID);
-    };
+    editButton.innerText = "Edit";
+    editButton.classList.add("edit-btn");
+    editButton.dataset.id = data.donationID;
 
     let deleteButton = document.createElement("button");
-    deleteButton.innerHTML = "Delete";
-    deleteButton.onclick = function () {
-        let donationID = donationIDCell.innerText;
-        deleteDonation(donationID);
-    };
+    deleteButton.innerText = "Delete";
+    deleteButton.classList.add("delete-btn");
+    deleteButton.dataset.id = data.donationID;
 
     // Append the buttons to the actions cell
     actionsCell.appendChild(editButton);
     actionsCell.appendChild(deleteButton);
+
+    // Add the new row to the table
+    currentTable.appendChild(newRow);
+
+    // Add the new data to the dropdown menu for updating donations
+    let selectMenu = document.getElementById("select-donation");
+    let option = document.createElement("option");
+    option.text = data.donationID;
+    option.value = data.donationID;
+    selectMenu.add(option);
 }
 
 // Modify the AJAX request to handle the response correctly
@@ -123,32 +130,6 @@ addDonationForm.addEventListener("submit", function (e) {
     xhttp.send(JSON.stringify(data));
 });
 
-// Delete a donation
-function deleteDonation(donationID) {
-    // Put sendable data into JS object
-    let data = {
-        id: donationID
-    };
-
-    // AJAX request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("DELETE", "/delete-donation-ajax", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-
-    // Tell AJAX req how to resolve
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState === 4 && xhttp.status === 204) {
-            deleteRow(donationID);
-        }
-        else if (xhttp.readyState === 4 && xhttp.status != 204) {
-            console.log("There was an error with the input.");
-        }
-    }
-    // Send request
-    xhttp.send(JSON.stringify(data));
-}
-
-// Delete a row from the table
 function deleteRow(donationID) {
     let table = document.getElementById("donations-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -190,3 +171,19 @@ function editDonation(donationID) {
         }
     }
 }
+
+// Apply event delegation for edit and delete buttons
+
+document.addEventListener("DOMContentLoaded", function () {
+    const donationsTable = document.getElementById("donations-table");
+
+    donationsTable.addEventListener("click", function (event) {
+        if (event.target.classList.contains("edit-btn")) {
+            const donationId = event.target.dataset.id;
+            editDonation(donationId);
+        } else if (event.target.classList.contains("delete-btn")) {
+            const donationId = event.target.dataset.id;
+            deleteDonation(donationId);
+        }
+    });
+});

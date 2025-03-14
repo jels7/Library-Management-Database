@@ -6,9 +6,6 @@
 // Meredith Baker & Anjelica Cucchiara
 
 
-// Get the form element
-let addBorrowedBookForm = document.getElementById('add-borrowed-book-form-ajax');
-
 document.addEventListener('DOMContentLoaded', function () {
     fetch('/get-patrons')
         .then(response => response.json())
@@ -41,6 +38,59 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error fetching books:', error));
 });
 
+// Get the form element
+let addBorrowedBookForm = document.getElementById('add-borrowed-book-form-ajax');
+
+// Creates a single row from an Object representing a single record from BorrowedBooks
+addRowToTable = (data) => {
+    // Get reference to current table on the page
+    let currentTable = document.getElementById("borrowed-books-table");
+
+    // Create a new row and cells
+    let newRow = currentTable.insertRow();
+    newRow.setAttribute("data-value", data.borrowedBookID); // Set data-value attribute
+
+    let borrowedBookIDCell = newRow.insertCell(0);
+    let patronIDCell = newRow.insertCell(1);
+    let bookIDCell = newRow.insertCell(2);
+    let borrowDateCell = newRow.insertCell(3);
+    let returnDateCell = newRow.insertCell(4);
+    let dueDateCell = newRow.insertCell(5);
+    let actionsCell = newRow.insertCell(6);
+
+    // Fill the cells with the appropriate data
+    borrowedBookIDCell.innerText = data.borrowedBookID;
+    patronIDCell.innerText = data.patronID;
+    bookIDCell.innerText = data.bookID;
+    borrowDateCell.innerText = new Date(data.borrowDate).toLocaleDateString();
+    returnDateCell.innerText = new Date(data.returnDate).toLocaleDateString();
+    dueDateCell.innerText = new Date(data.dueDate).toLocaleDateString();
+
+    // Create the Edit and Delete buttons
+    let editButton = document.createElement("button");
+    editButton.innerText = "Edit";
+    editButton.classList.add("edit-btn");
+    editButton.dataset.id = data.borrowedBookID;
+
+    let deleteButton = document.createElement("button");
+    deleteButton.innerText = "Delete";
+    deleteButton.classList.add("delete-btn");
+    deleteButton.dataset.id = data.borrowedBookID;
+
+    // Append the buttons to the actions cell
+    actionsCell.appendChild(editButton);
+    actionsCell.appendChild(deleteButton);
+
+    // Add the new row to the table
+    currentTable.appendChild(newRow);
+
+    // Add the new data to the dropdown menu for updating borrowed books
+    let selectMenu = document.getElementById("select-borrowed-book");
+    let option = document.createElement("option");
+    option.text = data.borrowedBookID;
+    option.value = data.borrowedBookID;
+    selectMenu.add(option);
+}
 
 // Modify the AJAX request to handle the response correctly
 addBorrowedBookForm.addEventListener("submit", function (e) {
@@ -106,96 +156,6 @@ addBorrowedBookForm.addEventListener("submit", function (e) {
     xhttp.send(JSON.stringify(data));
 });
 
-
-// Creates a single row from an Object representing a single record from BorrowedBooks
-addRowToTable = (data) => {
-
-    // Get reference to current table on the page
-    let currentTable = document.getElementById("borrowed-books-table");
-
-    // Get location where we should insert the new row
-    let newRowIndex = currentTable.rows.length;
-
-    // Get reference to new row from the db query
-    let parsedData = JSON.parse(data);
-    let newRow = parsedData[parsedData.length - 1]
-
-    // Crete row and cells
-    let row = document.createElement("TR");
-    let borrowedBookIDCell = document.createElement("TD");
-    let patronIDCell = document.createElement("TD");
-    let bookIDCell = document.createElement("TD");
-    let borrowDateCell = document.createElement("TD");
-    let returnDateCell = document.createElement("TD");
-    let dueDateCell = document.createElement("TD");
-    let actionsCell = document.createElement("TD");
-
-    // Fill the cells with the appropriate data
-    borrowedBookIDCell.innerText = newRow.borrowedBookID;
-    patronIDCell.innerText = newRow.patronID;
-    bookIDCell.innerText = newRow.bookID;
-    borrowDateCell.innerText = new Date(newRow.borrowDate).toLocaleDateString();
-    returnDateCell.innerText = new Date(newRow.returnDate).toLocaleDateString();
-    dueDateCell.innerText = new Date(newRow.dueDate).toLocaleDateString();
-
-    // Create the Edit and Delete buttons
-    let editButton = document.createElement("button");
-    editButton.innerHTML = "Edit";
-    editButton.addEventListener("click", function () {
-        editBorrowedBook(newRow.borrowedBookID);    
-    });
-
-    let deleteButton = document.createElement("button");
-    deleteButton.innerHTML = "Delete";
-    deleteButton.addEventListener("click", function () {
-        deleteBorrowedBook(newRow.borrowedBookID);
-    });
-
-    // Append the buttons to the actions cell
-    actionsCell.appendChild(editButton);
-    actionsCell.appendChild(deleteButton);
-
-    // Add cells to the row
-    row.appendChild(borrowedBookIDCell);
-    row.appendChild(patronIDCell);
-    row.appendChild(bookIDCell);
-    row.appendChild(borrowDateCell);
-    row.appendChild(returnDateCell);
-    row.appendChild(dueDateCell);
-    row.appendChild(actionsCell);
-
-    // Add row attribute so deleteRow can find a new row
-    row.setAttribute('data-value', newRow.borrowedBookID);
-
-    // Add row to the table
-    currentTable.appendChild(row);
-}
-
-
-function deleteBorrowedBook(borrowedBookID) {
-    // Put sendable data into JS object
-    let data = {
-        id: borrowedBookID
-    };
-
-    // AJAX request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("DELETE", "/delete-borrowed-book-ajax", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-
-    // Tell AJAX req how to resolve
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState === 4 && xhttp.status === 204) {
-            deleteRow(borrowedBookID);
-        }
-        else if (xhttp.readyState === 4 && xhttp.status != 204) {
-            console.log("There was an error with the input.");
-        }
-    }
-    // Send request
-    xhttp.send(JSON.stringify(data));
-}
-
 function deleteRow(borrowedBookID) {
     let table = document.getElementById("borrowed-books-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -241,3 +201,19 @@ function editBorrowedBook(borrowedBookID) {
         }
     }
 }
+
+// Apply event delegation for edit and delete buttons
+
+document.addEventListener("DOMContentLoaded", function () {
+    const borrowedBooksTable = document.getElementById("borrowed-books-table");
+
+    borrowedBooksTable.addEventListener("click", function (event) {
+        if (event.target.classList.contains("edit-btn")) {
+            const bookId = event.target.dataset.id;
+            editBorrowedBook(bookId);
+        } else if (event.target.classList.contains("delete-btn")) {
+            const bookId = event.target.dataset.id;
+            deleteBorrowedBook(bookId);
+        }
+    });
+});

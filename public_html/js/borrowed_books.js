@@ -68,12 +68,18 @@ addRowToTable = (data) => {
 
     // Create the Edit and Delete buttons
     let editButton = document.createElement("button");
-    editButton.innerText = "Edit";
-    editButton.setAttribute("onclick", `editBorrowedBook(${data.borrowedBookID})`);
+    editButton.innerHTML = "Edit";
+    editButton.onclick = function () {
+        let borrowedBookID = borrowedBookIDCell.innerText;
+        editBorrowedBook(borrowedBookID);
+    };
 
     let deleteButton = document.createElement("button");
-    deleteButton.innerText = "Delete";
-    deleteButton.setAttribute("onclick", `deleteBorrowedBook(${data.borrowedBookID})`);
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = function () {
+        let borrowedBookID = borrowedBookIDCell.innerText;
+        editBorrowedBook(borrowedBookID);
+    };
 
     // Append the buttons to the actions cell
     actionsCell.appendChild(editButton);
@@ -143,6 +149,30 @@ addBorrowedBookForm.addEventListener("submit", function (e) {
     // Send request
     xhttp.send(JSON.stringify(data));
 });
+
+function deleteBorrowedBook(borrowedBookID) {
+    // Put sendable data into JS object
+    let data = {
+        id: borrowedBookID
+    };
+
+    // AJAX request
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("DELETE", "/delete-borrowed-book-ajax", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    // Tell AJAX req how to resolve
+    xhttp.onreadystatechange = () => {
+        if (xhttp.readyState === 4 && xhttp.status === 204) {
+            deleteRow(borrowedBookID);
+        }
+        else if (xhttp.readyState === 4 && xhttp.status != 204) {
+            console.log("There was an error with the input.");
+        }
+    }
+    // Send request
+    xhttp.send(JSON.stringify(data));
+}
 
 function deleteRow(borrowedBookID) {
     let table = document.getElementById("borrowed-books-table");

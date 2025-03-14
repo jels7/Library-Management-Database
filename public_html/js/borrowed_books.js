@@ -6,6 +6,8 @@
 // Meredith Baker & Anjelica Cucchiara
 
 
+// Get the form element
+let addBorrowedBookForm = document.getElementById('add-borrowed-book-form-ajax');
 
 document.addEventListener('DOMContentLoaded', function () {
     fetch('/get-patrons')
@@ -39,8 +41,71 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error fetching books:', error));
 });
 
-// Get the form element
-let addBorrowedBookForm = document.getElementById('add-borrowed-book-form-ajax');
+
+// Modify the AJAX request to handle the response correctly
+addBorrowedBookForm.addEventListener("submit", function (e) {
+    // Prevent form from submitting
+    e.preventDefault();
+
+    // Get form fields that we need to get data from
+    let inputPatronId = document.getElementById("input-patronId");
+    let inputBookId = document.getElementById("input-bookId");
+    let inputBorrowDate = document.getElementById("input-borrowDate");
+    let inputReturnDate = document.getElementById("input-returnDate");
+    let inputDueDate = document.getElementById("input-dueDate");
+
+    // Get the values from the form fields
+    let patronIdValue = inputPatronId.value;
+    let bookIdValue = inputBookId.value;
+    let borrowDateValue = inputBorrowDate.value;
+    let returnDateValue = inputReturnDate.value;
+    let dueDateValue = inputDueDate.value;
+
+    // Validate input data
+    if (!patronIdValue || !bookIdValue || !borrowDateValue || !returnDateValue || !dueDateValue) {
+        console.log("Invalid input data. Please fill out all fields.");
+        return;
+    }
+
+    // Put sendable data into JS object
+    let data = {
+        patronID: patronIdValue,
+        bookID: bookIdValue,
+        borrowDate: borrowDateValue,
+        returnDate: returnDateValue,
+        dueDate: dueDateValue
+    }
+    console.log('Sending data:', data); // Log the data being sent
+
+    // Set up AJAX req
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/add-borrowed-book-ajax", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    // Tell AJAX req how to resolve
+    xhttp.onreadystatechange = () => {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            // Parse the response data
+            let responseData = JSON.parse(xhttp.responseText);
+
+            // Add new data to table
+            addRowToTable(responseData);
+
+            // Clear input fields for another transaction
+            inputPatronId.value = '';
+            inputBookId.value = '';
+            inputBorrowDate.value = '';
+            inputReturnDate.value = '';
+            inputDueDate.value = '';
+        } else if (xhttp.readyState == 4 && xhttp.status != 200) {
+            console.log("There was an error with the input. Status:", xhttp.status, "Response:", xhttp.responseText);
+        }
+    }
+
+    // Send request
+    xhttp.send(JSON.stringify(data));
+});
+
 
 // Creates a single row from an Object representing a single record from BorrowedBooks
 addRowToTable = (data) => {
@@ -106,69 +171,6 @@ addRowToTable = (data) => {
     currentTable.appendChild(row);
 }
 
-// Modify the AJAX request to handle the response correctly
-addBorrowedBookForm.addEventListener("submit", function (e) {
-    // Prevent form from submitting
-    e.preventDefault();
-
-    // Get form fields that we need to get data from
-    let inputPatronId = document.getElementById("input-patronId");
-    let inputBookId = document.getElementById("input-bookId");
-    let inputBorrowDate = document.getElementById("input-borrowDate");
-    let inputReturnDate = document.getElementById("input-returnDate");
-    let inputDueDate = document.getElementById("input-dueDate");
-
-    // Get the values from the form fields
-    let patronIdValue = inputPatronId.value;
-    let bookIdValue = inputBookId.value;
-    let borrowDateValue = inputBorrowDate.value;
-    let returnDateValue = inputReturnDate.value;
-    let dueDateValue = inputDueDate.value;
-
-    // Validate input data
-    if (!patronIdValue || !bookIdValue || !borrowDateValue || !returnDateValue || !dueDateValue) {
-        console.log("Invalid input data. Please fill out all fields.");
-        return;
-    }
-
-    // Put sendable data into JS object
-    let data = {
-        patronID: patronIdValue,
-        bookID: bookIdValue,
-        borrowDate: borrowDateValue,
-        returnDate: returnDateValue,
-        dueDate: dueDateValue
-    }
-    console.log('Sending data:', data); // Log the data being sent
-
-    // Set up AJAX req
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/add-borrowed-book-ajax", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-
-    // Tell AJAX req how to resolve
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            // Parse the response data
-            let responseData = JSON.parse(xhttp.responseText);
-
-            // Add new data to table
-            addRowToTable(responseData);
-
-            // Clear input fields for another transaction
-            inputPatronId.value = '';
-            inputBookId.value = '';
-            inputBorrowDate.value = '';
-            inputReturnDate.value = '';
-            inputDueDate.value = '';
-        } else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input. Status:", xhttp.status, "Response:", xhttp.responseText);
-        }
-    }
-
-    // Send request
-    xhttp.send(JSON.stringify(data));
-});
 
 function deleteBorrowedBook(borrowedBookID) {
     // Put sendable data into JS object
